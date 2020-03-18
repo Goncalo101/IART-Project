@@ -7,7 +7,7 @@ public class BuildingProject {
     private int capacity;
     private String[] plan;
 
-    BuildingProject(String type, int rows, int columns, int capacity, String[] plan) {
+    public BuildingProject(String type, int rows, int columns, int capacity, String[] plan) {
 
         this.type = type;
         this.rows = rows;
@@ -15,4 +15,25 @@ public class BuildingProject {
         this.capacity = capacity;
         this.plan = plan;
     }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public int getRows() {
+        return this.rows;
+    }
+
+    public int getColumns() {
+        return this.columns;
+    }
+
+    public int getCapacity() {
+        return this.capacity;
+    }
+
+    public String[] getPlan() {
+        return this.plan;
+    }
+
 }
