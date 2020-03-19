@@ -14,9 +14,6 @@ public class InputProcessor {
     private City city;
     private List<BuildingProject> projs = new LinkedList<>();
 
-    public String proj_type;
-    public int proj_rows, proj_columns, proj_capacity;
-
     public void openFile() throws Exception {
 
         // Open File
@@ -30,12 +27,12 @@ public class InputProcessor {
 
         this.city = new City(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), Integer.parseInt(aux[2]));
 
-        int num_projects = Integer.parseInt(aux[3]);
+        int numProjects = Integer.parseInt(aux[3]);
         // Projects
         String type;
         int rows, columns, capacity;
 
-        for (int i = 0; i < num_projects; i++) {
+        for (int i = 0; i < numProjects; i++) {
 
             // Proj info
             line = br.readLine();
@@ -47,15 +44,15 @@ public class InputProcessor {
             capacity = Integer.parseInt(aux[3]);
 
             // Proj plan
-            String[] proj_plan = new String[rows];
+            String[] projPlan = new String[rows];
 
             for (int j = 0; j < rows; j++) {
-                proj_plan[j] = br.readLine();
-                System.out.println(proj_plan[j]);
+                projPlan[j] = br.readLine();
+                System.out.println(projPlan[j]);
             }
             System.out.println();
 
-            projs.add(new BuildingProject(type, rows, columns, capacity, proj_plan));
+            projs.add(new BuildingProject(type, rows, columns, capacity, projPlan));
         }
 
         br.close();
