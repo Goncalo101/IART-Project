@@ -8,14 +8,16 @@ public class BuildingProject {
     private int columns;
     private int capacity;
     private String[] plan;
+    private Integer id;
+    private static Integer next = 0;
 
     public BuildingProject(String type, int rows, int columns, int capacity, String[] plan) {
-
         this.type = type;
         this.rows = rows;
         this.columns = columns;
         this.capacity = capacity;
         this.plan = plan;
+        this.id = next++;
     }
 
     public String getType() {
@@ -38,14 +40,12 @@ public class BuildingProject {
         return this.plan;
     }
 
+    public Integer getID() {
+        return this.id;
+    }
+
     @Override
     public String toString() {
-        return "BuildingProject{" +
-                "type='" + type + '\'' +
-                ", rows=" + rows +
-                ", columns=" + columns +
-                ", capacity=" + capacity +
-                ", plan=" + Arrays.toString(plan) +
-                '}';
+        return this.id.toString();
     }
 }
