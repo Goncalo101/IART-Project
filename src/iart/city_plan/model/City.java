@@ -24,4 +24,12 @@ public class City {
         return this.maxWalkingDistance;
     }
 
+    @Override
+    public String toString() {
+        return "City{" +
+                "rows=" + rows +
+                ", columns=" + columns +
+                ", maxWalkingDistance=" + maxWalkingDistance +
+                '}';
+    }
 }

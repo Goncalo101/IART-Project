@@ -1,5 +1,7 @@
 package iart.city_plan.model;
 
+import java.util.Arrays;
+
 public class BuildingProject {
     private String type;
     private int rows;
@@ -36,4 +38,14 @@ public class BuildingProject {
         return this.plan;
     }
 
+    @Override
+    public String toString() {
+        return "BuildingProject{" +
+                "type='" + type + '\'' +
+                ", rows=" + rows +
+                ", columns=" + columns +
+                ", capacity=" + capacity +
+                ", plan=" + Arrays.toString(plan) +
+                '}';
+    }
 }
