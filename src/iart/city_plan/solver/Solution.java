@@ -11,12 +11,14 @@ public class Solution {
 
     @Override
     public String toString() {
-        System.out.println(solutions.size());
+        StringBuilder sb = new StringBuilder(solutions.size() + "\n");
+
         for (Map.Entry<BuildingProject, Coordinate> buildingEntry : solutions.entrySet()) {
-            System.out.println(buildingEntry.getKey() + " " + buildingEntry.getValue());
+            String line = buildingEntry.getKey() + " " + buildingEntry.getValue() + "\n";
+            sb.append(line);
         }
 
-        return "program end\n";
+        return sb.toString();
     }
 
     public void addBuilding(BuildingProject buildingProject, Coordinate coordinate) {
