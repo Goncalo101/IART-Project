@@ -1,68 +1,78 @@
 package iart.city_plan.util;
 
+import iart.city_plan.model.BuildingProject;
+import iart.city_plan.model.City;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-
-import iart.city_plan.model.BuildingProject;
-import iart.city_plan.model.City;
 
 public class InputProcessor {
 
     private City city;
-    private List<BuildingProject> projs = new LinkedList<>();
+    private List<BuildingProject> buildingProjects = new LinkedList<>();
+    private int numProjects;
 
-    public void openFile() throws Exception {
-
-        // Open File
-        File file = new File("input/a_example.in");
-
+    public InputProcessor(String inputFileName) throws IOException {
+        File file = new File(inputFileName);
         BufferedReader br = new BufferedReader(new FileReader(file));
+        loadCity(br);
+        loadProjects(br);
 
-        // City
-        String line = br.readLine();
-        String[] aux = line.split(" ");
-
-        this.city = new City(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), Integer.parseInt(aux[2]));
-
-        int numProjects = Integer.parseInt(aux[3]);
-        // Projects
-        String type;
-        int rows, columns, capacity;
-
-        for (int i = 0; i < numProjects; i++) {
-
-            // Proj info
-            line = br.readLine();
-            aux = line.split(" ");
-
-            type = aux[0];
-            rows = Integer.parseInt(aux[1]);
-            columns = Integer.parseInt(aux[2]);
-            capacity = Integer.parseInt(aux[3]);
-
-            // Proj plan
-            String[] projPlan = new String[rows];
-
-            for (int j = 0; j < rows; j++) {
-                projPlan[j] = br.readLine();
-                System.out.println(projPlan[j]);
-            }
-            System.out.println();
-
-            projs.add(new BuildingProject(type, rows, columns, capacity, projPlan));
-        }
+        showInfo();
 
         br.close();
     }
 
-    public City getCity(){
+    private void showInfo() {
+        System.out.println(city);
+        for (BuildingProject project : this.buildingProjects)
+            System.out.println(project);
+    }
+
+    private void loadProjects(BufferedReader br) throws IOException {
+        for (int i = 0; i < this.numProjects; i++) {
+            // Extract project info
+            String line = br.readLine();
+            String[] splitInput = line.split(" ");
+
+            String type = splitInput[0];
+            int rows = Integer.parseInt(splitInput[1]);
+            int columns = Integer.parseInt(splitInput[2]);
+            int capacity = Integer.parseInt(splitInput[3]);
+
+            // Extract project plan
+            String[] projPlan = new String[rows];
+
+            for (int j = 0; j < rows; j++) {
+                projPlan[j] = br.readLine();
+            }
+
+            BuildingProject project = new BuildingProject(type, rows, columns, capacity, projPlan);
+            this.buildingProjects.add(project);
+        }
+    }
+
+    private void loadCity(BufferedReader br) throws IOException {
+        String[] splitInput = br.readLine().split(" ");
+
+        int rows = Integer.parseInt(splitInput[0]);
+        int columns = Integer.parseInt(splitInput[1]);
+        int maxWalkingDistance = Integer.parseInt(splitInput[2]);
+        int numProjects = Integer.parseInt(splitInput[3]);
+
+        this.city = new City(rows, columns, maxWalkingDistance);
+        this.numProjects = numProjects;
+    }
+
+    public City getCity() {
         return this.city;
     }
 
-    public List<BuildingProject> getProjs(){
-        return this.projs;
+    public List<BuildingProject> getBuildingProjects() {
+        return this.buildingProjects;
     }
 }

@@ -2,14 +2,12 @@ package iart.city_plan;
 
 import iart.city_plan.util.InputProcessor;
 
-public class CityPlan {
-    public static void main(String[] args) {
-        InputProcessor ip = new InputProcessor();
+import java.io.IOException;
 
-        try {
-            ip.openFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+public class CityPlan {
+    public static void main(String[] args) throws IOException {
+        String inputFileName = args[0];
+        InputProcessor ip = new InputProcessor(inputFileName);
+
     }
 }
