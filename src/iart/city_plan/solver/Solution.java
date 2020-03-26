@@ -1,19 +1,20 @@
 package iart.city_plan.solver;
 
 import iart.city_plan.model.BuildingProject;
-import iart.city_plan.util.Coordinate;
+import iart.city_plan.util.structs.Coordinate;
+import iart.city_plan.util.structs.Pair;
 
 import java.util.*;
 
 public class Solution {
-    private Map<BuildingProject, List<Coordinate>> solutions = new HashMap<>();
+    private List<Pair<BuildingProject, List<Coordinate>>> solutions = new LinkedList<>();
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(solutions.size() + "\n");
 
-        for (Map.Entry<BuildingProject, List<Coordinate>> buildingEntry : solutions.entrySet()) {
-            String line = buildingEntry.getKey() + " " + buildingEntry.getValue() + "\n";
+        for (Pair<BuildingProject, List<Coordinate>>  buildingEntry : solutions) {
+            String line = buildingEntry.getT() + " " + buildingEntry.getU() + "\n";
             sb.append(line);
         }
 
@@ -33,10 +34,10 @@ public class Solution {
             }
         }
 
-        solutions.put(buildingProject, coordinates);
+        solutions.add(new Pair<>(buildingProject, coordinates));
     }
 
-    public Map<BuildingProject, List<Coordinate>> getSolutions() {
+    public List<Pair<BuildingProject, List<Coordinate>>> getSolutions() {
         return solutions;
     }
 }

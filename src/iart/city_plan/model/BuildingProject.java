@@ -1,6 +1,6 @@
 package iart.city_plan.model;
 
-import iart.city_plan.util.Coordinate;
+import iart.city_plan.util.structs.Coordinate;
 
 import java.util.Arrays;
 import java.util.Objects;

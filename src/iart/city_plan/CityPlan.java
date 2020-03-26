@@ -1,11 +1,10 @@
 package iart.city_plan;
 
 import iart.city_plan.solver.HillClimbingStrategy;
-import iart.city_plan.solver.NaiveStrategy;
 import iart.city_plan.solver.Solution;
 import iart.city_plan.solver.Strategy;
-import iart.city_plan.util.InputProcessor;
-import iart.city_plan.util.OutputProcessor;
+import iart.city_plan.util.io.InputProcessor;
+import iart.city_plan.util.io.OutputProcessor;
 
 import java.io.IOException;
 

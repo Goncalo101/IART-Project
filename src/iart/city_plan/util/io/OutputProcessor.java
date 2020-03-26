@@ -1,4 +1,4 @@
-package iart.city_plan.util;
+package iart.city_plan.util.io;
 
 import iart.city_plan.solver.Solution;
 

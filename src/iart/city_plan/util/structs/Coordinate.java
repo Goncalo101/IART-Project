@@ -1,4 +1,4 @@
-package iart.city_plan.util;
+package iart.city_plan.util.structs;
 
 import java.util.Objects;
 

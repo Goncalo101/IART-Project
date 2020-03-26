@@ -2,7 +2,7 @@ package iart.city_plan.solver;
 
 import iart.city_plan.model.BuildingProject;
 import iart.city_plan.model.City;
-import iart.city_plan.util.Coordinate;
+import iart.city_plan.util.structs.Coordinate;
 
 import java.util.LinkedList;
 import java.util.List;

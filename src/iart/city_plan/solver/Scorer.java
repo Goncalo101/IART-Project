@@ -1,10 +1,10 @@
 package iart.city_plan.solver;
 
 import iart.city_plan.model.BuildingProject;
-import iart.city_plan.util.Coordinate;
+import iart.city_plan.util.structs.Coordinate;
+import iart.city_plan.util.structs.Pair;
 
 import java.util.*;
-
 
 public class Scorer {
     private static int maxWalkingDistance;
@@ -15,40 +15,40 @@ public class Scorer {
 
     public static int score(Solution solution) {
         int score = 0;
-        Map<BuildingProject, List<Coordinate>> city = solution.getSolutions();
+        List<Pair<BuildingProject, List<Coordinate>>> city = solution.getSolutions();
 
-        Map<BuildingProject, List<Coordinate>> residentialBuildings = new HashMap<>();
-        Map<BuildingProject, List<Coordinate>> utilityBuildings = new HashMap<>();
+        List<Pair<BuildingProject, List<Coordinate>>> residentialBuildings = new LinkedList<>();
+        List<Pair<BuildingProject, List<Coordinate>>> utilityBuildings = new LinkedList<>();
 
-        for (Map.Entry<BuildingProject, List<Coordinate>> building : city.entrySet()) {
-            BuildingProject project = building.getKey();
-            List<Coordinate> coordinates = building.getValue();
+        for (Pair<BuildingProject, List<Coordinate>> building : city) {
+            BuildingProject project = building.getT();
+            List<Coordinate> coordinates = building.getU();
 
             if (project.getType().equals("R")) {
-                residentialBuildings.put(project, coordinates);
+                residentialBuildings.add(new Pair<>(project, coordinates));
             } else if (project.getType().equals("U")) {
-                utilityBuildings.put(project, coordinates);
+                utilityBuildings.add(new Pair<>(project, coordinates));
             }
         }
 
-        for (Map.Entry<BuildingProject, List<Coordinate>> residentialBuilding : residentialBuildings.entrySet()) {
-            int numUtilities = computeBuildingsInRange(residentialBuilding.getValue(), utilityBuildings);
-            score += numUtilities * residentialBuilding.getKey().getCapacity();
+        for (Pair<BuildingProject, List<Coordinate>> residentialBuilding : residentialBuildings) {
+            int numUtilities = computeBuildingsInRange(residentialBuilding.getU(), utilityBuildings);
+            score += numUtilities * residentialBuilding.getT().getCapacity();
         }
 
         return score;
     }
 
-    private static int computeBuildingsInRange(List<Coordinate> residentialCoords, Map<BuildingProject, List<Coordinate>> utilityBuildings) {
+    private static int computeBuildingsInRange(List<Coordinate> residentialCoords, List<Pair<BuildingProject, List<Coordinate>>> utilityBuildings) {
         Set<BuildingProject> buildings = new HashSet<>();
-        for (Map.Entry<BuildingProject, List<Coordinate>> utilityBuilding : utilityBuildings.entrySet()) {
+        for (Pair<BuildingProject, List<Coordinate>> utilityBuilding : utilityBuildings) {
             int minDistance = Integer.MAX_VALUE;
             for (Coordinate residentialCoord : residentialCoords) {
-                for (Coordinate utilityCoord : utilityBuilding.getValue()) {
+                for (Coordinate utilityCoord : utilityBuilding.getU()) {
                     int distance = computeDistance(utilityCoord, residentialCoord);
                     if (distance <= maxWalkingDistance && distance < minDistance) {
                         minDistance = distance;
-                        buildings.add(utilityBuilding.getKey());
+                        buildings.add(utilityBuilding.getT());
                     }
                 }
             }
