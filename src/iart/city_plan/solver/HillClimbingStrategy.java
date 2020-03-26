@@ -12,21 +12,36 @@ import java.util.Random;
 public class HillClimbingStrategy extends Strategy {
     private Solution solution = new Solution();
     private Graph graph = new Graph();
+    private Scorer scorer;
 
     public HillClimbingStrategy(City city) {
         super(city);
+        this.scorer = new Scorer(city.getMaxWalkingDistance());
     }
 
     @Override
     public Solution solve(List<BuildingProject> buildingProjects) {
         // generate random solution
-        Solution candidateSolution = generateRandomSolution(buildingProjects);
+//        Solution candidateSolution = generateRandomSolution(buildingProjects);
+
+        Solution candidateSolution = new Solution();
+        buildingProjects.get(0).place();
+        buildingProjects.get(1).place();
+        buildingProjects.get(2).place();
+
+        candidateSolution.addBuilding(buildingProjects.get(0), new Coordinate(0, 0));
+        candidateSolution.addBuilding(buildingProjects.get(1), new Coordinate(3, 0));
+        candidateSolution.addBuilding(buildingProjects.get(2), new Coordinate(0, 2));
+        buildingProjects.get(0).place();
+        candidateSolution.addBuilding(buildingProjects.get(0), new Coordinate(0, 5));
 
         // generate neighbour solutions
         List<Solution> solutionList = generateNeighbourSolutions(candidateSolution);
 
         // score neighbour solutions (check constraints)
-        Scorer.score(solutionList);
+        int score = Scorer.score(candidateSolution);
+        for (Solution _solution : solutionList) {
+        }
 
         // use solution with highest score
         // back to top until no highest scored solution
@@ -82,7 +97,12 @@ public class HillClimbingStrategy extends Strategy {
             }
         }
 
-        solution.addBuilding(buildingProject, coordsToFill.get(0));
+        Coordinate coordinate1 = coordsToFill.get(0);
+        BuildingProject bp = new BuildingProject(buildingProject);
+        bp.setCoordinate(coordinate1);
+        bp.place();
+
+        solution.addBuilding(bp, coordinate1);
         for (Coordinate coordToFill : coordsToFill) {
             System.out.println("\tPlaced on cell " + coordToFill);
             city.put(coordToFill, buildingProject.getID());
