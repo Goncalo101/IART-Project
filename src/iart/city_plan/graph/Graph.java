@@ -59,7 +59,7 @@ public class Graph {
         Vertex v1 = this.findVertex(src);
         Vertex v2 = this.findVertex(src);
 
-        if(v1 == null ||v2 == null) return false;
+        if(v1 == null || v2 == null) return false;
 
         v1.removeEdgeTo(v2);
         return true;

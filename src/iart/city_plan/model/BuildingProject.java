@@ -1,7 +1,5 @@
 package iart.city_plan.model;
 
-import java.util.Arrays;
-
 public class BuildingProject {
     private String type;
     private int rows;
@@ -10,6 +8,15 @@ public class BuildingProject {
     private String[] plan;
     private Integer id;
     private static Integer next = 0;
+
+    public BuildingProject(BuildingProject buildingProject) {
+        this.type = buildingProject.type;
+        this.rows = buildingProject.rows;
+        this.columns = buildingProject.columns;
+        this.capacity = buildingProject.capacity;
+        this.plan = buildingProject.plan;
+        this.id = buildingProject.id;
+    }
 
     public BuildingProject(String type, int rows, int columns, int capacity, String[] plan) {
         this.type = type;

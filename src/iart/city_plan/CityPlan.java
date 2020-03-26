@@ -1,5 +1,6 @@
 package iart.city_plan;
 
+import iart.city_plan.solver.HillClimbingStrategy;
 import iart.city_plan.solver.NaiveStrategy;
 import iart.city_plan.solver.Solution;
 import iart.city_plan.solver.Strategy;
@@ -13,7 +14,7 @@ public class CityPlan {
         String inputFileName = args[0];
         InputProcessor ip = new InputProcessor(inputFileName);
 
-        Strategy strategy = new NaiveStrategy(ip.getCity());
+        Strategy strategy = new HillClimbingStrategy(ip.getCity());
         Solution solution = strategy.solve(ip.getBuildingProjects());
 
         System.out.println(solution);

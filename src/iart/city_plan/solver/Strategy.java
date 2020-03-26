@@ -23,7 +23,7 @@ public abstract class Strategy {
     private void fillCity(int rows, int columns) {
         for (int row = 0; row < rows; ++row) {
             for (int col = 0; col < columns; ++col) {
-                Coordinate coordinate = new Coordinate(col, row);
+                Coordinate coordinate = new Coordinate(row, col);
                 this.city.put(coordinate, 0);
             }
         }
