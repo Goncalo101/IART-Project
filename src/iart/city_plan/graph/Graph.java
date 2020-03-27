@@ -1,20 +1,18 @@
 package iart.city_plan.graph;
 
-import iart.city_plan.model.City;
-
 import java.util.Vector;
 
-public class Graph {
+public class Graph<T> {
 
-    Vector<Vertex> vertexSet;
+    Vector<Vertex<T>> vertexSet;
 
-    public Vertex findVertex(City info) {
-        for (Vertex v : this.vertexSet)
+    public Vertex<T> findVertex(T info) {
+        for (Vertex<T> v : this.vertexSet)
             if (v.getInfo() == info) return v;
         return null;
     }
-    
-    public int findVertexIdx(City info) {
+
+    public int findVertexIdx(T info) {
         for (int i = 0; i < this.vertexSet.size(); i++) {
             if (this.vertexSet.elementAt(i).getInfo() == info)
                 return i;
@@ -22,7 +20,7 @@ public class Graph {
         return -1;
     }
 
-    public Vector<Vertex> getVertexes() {
+    public Vector<Vertex<T>> getVertexes() {
         return this.vertexSet;
     }
 
@@ -30,15 +28,16 @@ public class Graph {
         return this.vertexSet.size();
     }
 
-    public boolean addVertex(City info) {
-        if (this.findVertex(info) != null) return false;
+    public Vertex<T> addVertex(T info) {
+        if (this.findVertex(info) != null) return null;
 
-        this.vertexSet.add(new Vertex(info));
-        return true;
+        Vertex<T> toAdd = new Vertex<>(info);
+        this.vertexSet.add(toAdd);
+        return toAdd;
     }
 
-    public boolean removeVertex(City info) {
-        for (Vertex v : this.vertexSet) {
+    public boolean removeVertex(T info) {
+        for (Vertex<T> v : this.vertexSet) {
             if (v.getInfo() == info) {
                 this.vertexSet.remove(v);
                 return true;
@@ -47,7 +46,7 @@ public class Graph {
         return true;
     }
 
-    public boolean addEdge(Vertex v1, Vertex v2, double weight) {
+    public boolean addEdge(Vertex<T> v1, Vertex<T> v2, double weight) {
         if (v1 == null || v2 == null)
             return false;
 
@@ -55,9 +54,9 @@ public class Graph {
         return true;
     }
 
-    public boolean removeEdge(City src, City dest) {
-        Vertex v1 = this.findVertex(src);
-        Vertex v2 = this.findVertex(src);
+    public boolean removeEdge(T src, T dest) {
+        Vertex<T> v1 = this.findVertex(src);
+        Vertex<T> v2 = this.findVertex(src);
 
         if(v1 == null || v2 == null) return false;
 

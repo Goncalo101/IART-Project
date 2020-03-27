@@ -1,15 +1,15 @@
 package iart.city_plan.graph;
 
-public class Edge {
-    private Vertex dest;
+public class Edge<T> {
+    protected Vertex<T> dest;
     public double weight;
 
-    Edge(Vertex dest, double weight){
+    Edge(Vertex<T> dest, double weight){
         this.dest = dest;
         this.weight = weight;
     }
 
-    public Vertex getDest() {
+    public Vertex<T> getDest() {
         return dest;
     }
 
