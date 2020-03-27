@@ -66,7 +66,7 @@ public class HillClimbingStrategy extends Strategy {
 
         Random random = new Random();
         int attempts = 0;
-        while (attempts++ < 10)
+        while (attempts++ < 100)
             for (BuildingProject buildingProject : buildingProjects) {
                 Coordinate coordinate = getCoordinate(random);
                 int counter = 0;
@@ -112,7 +112,7 @@ public class HillClimbingStrategy extends Strategy {
         bp.setCoordinate(coordinate1);
         bp.place();
 
-        solution.addBuilding(bp, coordinate1);
+        solution.addBuilding(bp, coordinate);
         for (Coordinate coordToFill : coordsToFill) {
             System.out.println("\tPlaced on cell " + coordToFill);
             city.put(coordToFill, buildingProject.getID());
