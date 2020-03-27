@@ -58,6 +58,6 @@ public class Scorer {
     }
 
     private static int computeDistance(Coordinate utilityCoord, Coordinate residentialCoord) {
-        return Math.abs(utilityCoord.getX() - residentialCoord.getX()) + Math.abs(utilityCoord.getY() - residentialCoord.getY());
+        return Math.abs(utilityCoord.getRow() - residentialCoord.getRow()) + Math.abs(utilityCoord.getCol() - residentialCoord.getCol());
     }
 }

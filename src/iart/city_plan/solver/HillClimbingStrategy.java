@@ -1,6 +1,7 @@
 package iart.city_plan.solver;
 
 import iart.city_plan.graph.Graph;
+import iart.city_plan.graph.Vertex;
 import iart.city_plan.model.BuildingProject;
 import iart.city_plan.model.City;
 import iart.city_plan.util.structs.Coordinate;
@@ -11,7 +12,7 @@ import java.util.Random;
 
 public class HillClimbingStrategy extends Strategy {
     private Solution solution = new Solution();
-    private Graph graph = new Graph();
+    private Graph<Solution> graph = new Graph<>();
     private Scorer scorer;
 
     public HillClimbingStrategy(City city) {
@@ -22,26 +23,17 @@ public class HillClimbingStrategy extends Strategy {
     @Override
     public Solution solve(List<BuildingProject> buildingProjects) {
         // generate random solution
-//        Solution candidateSolution = generateRandomSolution(buildingProjects);
-
-        Solution candidateSolution = new Solution();
-        buildingProjects.get(0).place();
-        buildingProjects.get(1).place();
-        buildingProjects.get(2).place();
-
-        candidateSolution.addBuilding(buildingProjects.get(0), new Coordinate(0, 0));
-        candidateSolution.addBuilding(buildingProjects.get(1), new Coordinate(3, 0));
-        candidateSolution.addBuilding(buildingProjects.get(2), new Coordinate(0, 2));
-        buildingProjects.get(0).place();
-        candidateSolution.addBuilding(buildingProjects.get(0), new Coordinate(0, 5));
+        Solution candidateSolution = generateRandomSolution(buildingProjects);
 
         // generate neighbour solutions
-        List<Solution> solutionList = generateNeighbourSolutions(candidateSolution);
+        // List<Solution> solutionList = generateNeighbourSolutions(candidateSolution);
 
         // score neighbour solutions (check constraints)
         int score = Scorer.score(candidateSolution);
-        for (Solution _solution : solutionList) {
-        }
+        System.out.println("Score: " + score);
+
+        // for (Solution _solution : solutionList) {
+        // }
 
         // use solution with highest score
         // back to top until no highest scored solution
@@ -51,6 +43,20 @@ public class HillClimbingStrategy extends Strategy {
 
     private List<Solution> generateNeighbourSolutions(Solution candidateSolution) {
         List<Solution> solutionList = new LinkedList<>();
+        Vertex<Solution> candidate = new Vertex<>(candidateSolution);
+
+        graph.addVertex(candidateSolution);
+
+//        for (Operator operator : operators) {
+//            Solution neighbour = operator.apply(candidateSolution);
+//            solutionList.add(neighbour);
+//        }
+
+        for (Solution solution : solutionList) {
+            Vertex<Solution> added = graph.addVertex(solution);
+            if (added != null)
+                graph.addEdge(candidate, added, 0);
+        }
 
         return solutionList;
     }
@@ -59,22 +65,26 @@ public class HillClimbingStrategy extends Strategy {
         Solution candidateSolution = new Solution();
 
         Random random = new Random();
-        for (BuildingProject buildingProject : buildingProjects) {
-            Coordinate coordinate = getCoordinate(random);
-            int counter = 0;
+        int attempts = 0;
+        while (attempts++ < 10)
+            for (BuildingProject buildingProject : buildingProjects) {
+                Coordinate coordinate = getCoordinate(random);
+                int counter = 0;
 
-            while (placeBuilding(coordinate, buildingProject, candidateSolution) == null && counter++ < 10) {
-                coordinate = getCoordinate(random);
+                while (placeBuilding(coordinate, buildingProject, candidateSolution) == null && counter++ < 10) {
+                    coordinate = getCoordinate(random);
+                }
             }
-        }
 
         return candidateSolution;
     }
 
     private Coordinate getCoordinate(Random random) {
-        int row = random.nextInt(rows);
-        int col = random.nextInt(columns);
-        return new Coordinate(col, row);
+        int row = random.nextInt(super.rows);
+        int col = random.nextInt(super.columns);
+        Coordinate coordinate = new Coordinate(row, col);
+        System.out.println("getCoordinate: " + coordinate);
+        return coordinate;
     }
 
     private Solution placeBuilding(Coordinate coordinate, BuildingProject buildingProject, Solution solution) {
@@ -83,12 +93,12 @@ public class HillClimbingStrategy extends Strategy {
 
         for (int row = 0; row < buildingProject.getRows(); ++row) {
             for (int col = 0; col < buildingProject.getColumns(); ++col) {
-                int x = coordinate.getY() + col;
-                int y = coordinate.getX() + row;
+                int newCol = coordinate.getCol() + col;
+                int newRow = coordinate.getRow() + row;
 
-                Coordinate candidateCoord = new Coordinate(x, y);
+                Coordinate candidateCoord = new Coordinate(newRow, newCol);
                 System.out.println("\tTrying cell " + candidateCoord);
-                if (x >= rows || y >= columns || !super.city.get(candidateCoord).equals(0))
+                if (newRow >= rows || newCol >= columns || !super.city.get(candidateCoord).equals(-1))
                     return null;
 
                 if (buildingProject.getPlan()[row].charAt(col) != '.') {
@@ -107,6 +117,7 @@ public class HillClimbingStrategy extends Strategy {
             System.out.println("\tPlaced on cell " + coordToFill);
             city.put(coordToFill, buildingProject.getID());
         }
+
 
         return solution;
     }

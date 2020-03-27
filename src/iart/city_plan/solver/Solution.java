@@ -14,7 +14,7 @@ public class Solution {
         StringBuilder sb = new StringBuilder(solutions.size() + "\n");
 
         for (Pair<BuildingProject, List<Coordinate>>  buildingEntry : solutions) {
-            String line = buildingEntry.getT() + " " + buildingEntry.getU() + "\n";
+            String line = buildingEntry.getT() + " " + buildingEntry.getU().get(0) + "\n";
             sb.append(line);
         }
 
@@ -26,10 +26,10 @@ public class Solution {
 
         for (int row = 0; row < buildingProject.getRows(); ++row) {
             for (int col = 0; col < buildingProject.getColumns(); ++col) {
-                int x = coordinate.getY() + col;
-                int y = coordinate.getX() + row;
+                int newCol = coordinate.getCol() + col;
+                int newRow = coordinate.getRow() + row;
 
-                Coordinate candidateCoord = new Coordinate(x, y);
+                Coordinate candidateCoord = new Coordinate(newRow, newCol);
                 coordinates.add(candidateCoord);
             }
         }

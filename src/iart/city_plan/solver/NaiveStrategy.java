@@ -38,8 +38,8 @@ public class NaiveStrategy extends Strategy {
 
         for (int row = 0; row < buildingProject.getRows(); ++row) {
             for (int col = 0; col < buildingProject.getColumns(); ++col) {
-                int x = firstAvailable.getY() + col;
-                int y = firstAvailable.getX() + row;
+                int x = firstAvailable.getCol() + col;
+                int y = firstAvailable.getRow() + row;
 
                 Coordinate candidateCoord = new Coordinate(x, y);
                 if (!super.city.get(candidateCoord).equals(0) || x >= super.rows || y >= super.columns)
