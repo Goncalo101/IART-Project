@@ -18,7 +18,7 @@ public class GeneticStrategy extends Strategy {
 
     @Override
     public Solution solve(List<BuildingProject> buildingProjects) {
-        int populationSize = 10;
+        int populationSize = 20;
         List<Solution> population = generatePopulation(buildingProjects, populationSize);
 
         return geneticAlgorithm(population);
@@ -27,14 +27,15 @@ public class GeneticStrategy extends Strategy {
     private Solution geneticAlgorithm(List<Solution> population) {
         Random random = new Random();
         long startTime = System.currentTimeMillis();
+        int iter = 0;
 
         do {
+            System.out.println("Iteration: " + iter++);
             List<Solution> newPopulation = new LinkedList<>();
             for (Solution solution : population) {
                 solution.sort();
             }
 
-            System.out.println(population);
             for (int i = 0; i < population.size(); ++i) {
                 Solution parent1 = randomSelection(random);
                 Solution parent2 = randomSelection(random);
@@ -42,13 +43,12 @@ public class GeneticStrategy extends Strategy {
 
                 // if (mutation condition) mutate(child)
                 newPopulation.add(child);
-                System.out.println("iteration: " + i);
             }
 
             population = newPopulation;
             scoreAll(population);
 
-        } while ((System.currentTimeMillis() - startTime) < 60000);
+        } while ((System.currentTimeMillis() - startTime) < 1800000);
 
         return bestSolution(population);
     }
@@ -105,25 +105,36 @@ public class GeneticStrategy extends Strategy {
 
     private Solution reproduce(Solution parent1, Solution parent2, Random random) {
         resetCity();
-        int numBuildings = parent1.getSolution().size();
-        int cutPosition = random.nextInt(numBuildings);
-        if (cutPosition == 0) cutPosition = 1;
+        Coordinate cutCoordinate = getCoordinate(random);
 
         Solution child = new Solution();
 
         List<Pair<BuildingProject, List<Coordinate>>> projects1 = parent1.getSolution();
         List<Pair<BuildingProject, List<Coordinate>>> projects2 = parent2.getSolution();
-        for (int numBuilding = 0; numBuilding < cutPosition; ++numBuilding) {
-            Pair<BuildingProject, List<Coordinate>> building = projects1.get(numBuilding);
-            Solution sol = placeBuilding(building.getSecond().get(0), building.getFirst(), child);
-            if (sol == null) {
-                System.out.println("OIOIOIOIOIOIOI");
+
+        int numProjects1 = projects1.size();
+        int numProjects2 = projects2.size();
+
+        if (numProjects1 > numProjects2) {
+            List<Pair<BuildingProject, List<Coordinate>>> temp = projects1;
+            projects1 = projects2;
+            projects2 = temp;
+        }
+
+        for (Pair<BuildingProject, List<Coordinate>> projects : projects1) {
+            Coordinate current = projects.getSecond().get(0);
+            if ((current.getRow() == cutCoordinate.getRow()) && (current.getCol() > cutCoordinate.getCol()) || (current.getRow() > cutCoordinate.getRow())) {
+                break;
+            } else {
+                placeBuilding(projects.getSecond().get(0), projects.getFirst(), child);
             }
         }
 
-        for (int numBuilding = cutPosition; numBuilding < projects2.size(); ++numBuilding) {
-            Pair<BuildingProject, List<Coordinate>> building = projects2.get(numBuilding);
-            placeBuilding(building.getSecond().get(0), building.getFirst(), child);
+        for (Pair<BuildingProject, List<Coordinate>> projects : projects2) {
+            Coordinate current = projects.getSecond().get(0);
+            if ((current.getRow() == cutCoordinate.getRow()) && (current.getCol() > cutCoordinate.getCol()) || (current.getRow() > cutCoordinate.getRow())) {
+                placeBuilding(projects.getSecond().get(0), projects.getFirst(), child);
+            }
         }
 
         return child;

@@ -49,7 +49,7 @@ public abstract class Strategy {
         return candidateSolution;
     }
 
-    private Coordinate getCoordinate(Random random) {
+    protected Coordinate getCoordinate(Random random) {
         int row = random.nextInt(rows);
         int col = random.nextInt(columns);
         return new Coordinate(row, col);
