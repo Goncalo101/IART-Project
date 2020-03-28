@@ -8,3 +8,5 @@ U 1 4 1
 U 2 2 5
 ##
 ##
+
+city[coord] != -1 && buildingplan[row][col] == "#"

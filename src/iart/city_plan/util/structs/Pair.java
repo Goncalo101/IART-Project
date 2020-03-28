@@ -9,11 +9,11 @@ public class Pair<T, U> {
         _u = u;
     }
 
-    public T getT() {
+    public T getFirst() {
         return _t;
     }
 
-    public U getU() {
+    public U getSecond() {
         return _u;
     }
 }

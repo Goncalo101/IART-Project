@@ -22,7 +22,7 @@ public class InputProcessor {
         loadCity(br);
         loadProjects(br);
 
-        showInfo();
+//        showInfo();
 
         br.close();
     }
