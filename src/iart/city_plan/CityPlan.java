@@ -1,9 +1,6 @@
 package iart.city_plan;
 
-import iart.city_plan.solver.GeneticStrategy;
-import iart.city_plan.solver.HillClimbingStrategy;
-import iart.city_plan.solver.Solution;
-import iart.city_plan.solver.Strategy;
+import iart.city_plan.solver.*;
 import iart.city_plan.util.io.InputProcessor;
 import iart.city_plan.util.io.OutputProcessor;
 

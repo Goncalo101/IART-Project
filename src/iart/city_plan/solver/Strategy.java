@@ -36,13 +36,28 @@ public abstract class Strategy {
 
         Random random = new Random();
         int attempts = 0;
-        while (attempts++ < 250)
-            for (BuildingProject buildingProject : buildingProjects) {
-                Coordinate coordinate = getCoordinate(random);
-                int counter = 0;
 
-                while (placeBuilding(coordinate, buildingProject, candidateSolution) == null && counter++ < 10) {
-                    coordinate = getCoordinate(random);
+            if (random.nextInt() % 2 == 0) {
+                while (attempts++ < 250) {
+                    for (BuildingProject buildingProject : buildingProjects) {
+                        Coordinate coordinate = getCoordinate(random);
+                        int counter = 0;
+
+                        while (placeBuilding(coordinate, buildingProject, candidateSolution) == null && counter++ < 10) {
+                            coordinate = getCoordinate(random);
+                        }
+                    }
+                }
+            } else {
+                while (attempts++ < 250) {
+                    for (Coordinate coordinate : city.keySet()) {
+                        int counter = 0;
+
+                        BuildingProject buildingProject = buildingProjects.get(random.nextInt(buildingProjects.size()));
+                        while (placeBuilding(coordinate, buildingProject, candidateSolution) == null && counter++ < 10) {
+                            coordinate = getCoordinate(random);
+                        }
+                    }
                 }
             }
 
@@ -85,7 +100,6 @@ public abstract class Strategy {
 //            System.out.println("\tPlaced on cell " + coordToFill);
             city.put(coordToFill, buildingProject.getID());
         }
-
 
         return solution;
     }
