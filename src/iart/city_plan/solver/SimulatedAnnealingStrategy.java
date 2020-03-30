@@ -18,7 +18,7 @@ public class SimulatedAnnealingStrategy extends Strategy implements PopulationSt
 
     @Override
     public Solution solve(List<BuildingProject> buildingProjects) {
-        generatePopulation(buildingProjects, 50);
+        generatePopulation(buildingProjects, 150);
 
         Solution current = selectRandomSolution();
 

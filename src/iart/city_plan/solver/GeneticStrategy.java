@@ -18,7 +18,7 @@ public class GeneticStrategy extends Strategy implements PopulationStrategy {
 
     @Override
     public Solution solve(List<BuildingProject> buildingProjects) {
-        int populationSize = 20;
+        int populationSize = 150;
         List<Solution> population = generatePopulation(buildingProjects, populationSize);
 
         return geneticAlgorithm(population);
@@ -97,9 +97,10 @@ public class GeneticStrategy extends Strategy implements PopulationStrategy {
 
     private Solution reproduce(Solution parent1, Solution parent2, Random random) {
         resetCity();
+        int maxCoords = 8;
         List<Coordinate> cutCoordinates = new LinkedList<>();
 
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i < maxCoords; ++i) {
             cutCoordinates.add(getCoordinate(random));
         }
 
@@ -124,35 +125,21 @@ public class GeneticStrategy extends Strategy implements PopulationStrategy {
             projects2 = temp;
         }
 
-        for (Pair<BuildingProject, List<Coordinate>> projects : projects1) {
-            Coordinate current = projects.getSecond().get(0);
-            if ((current.getRow() == cutCoordinates.get(0).getRow()) && (current.getCol() > cutCoordinates.get(0).getCol()) || (current.getRow() > cutCoordinates.get(0).getRow())) {
-                break;
-            } else {
-                placeBuilding(projects.getSecond().get(0), projects.getFirst(), child);
+        for (int i = 0; i < maxCoords; i += 2) {
+            for (Pair<BuildingProject, List<Coordinate>> projects : projects1) {
+                Coordinate current = projects.getSecond().get(0);
+                if ((current.getRow() == cutCoordinates.get(i).getRow()) && (current.getCol() > cutCoordinates.get(i).getCol()) || (current.getRow() > cutCoordinates.get(i).getRow())) {
+                    break;
+                } else {
+                    placeBuilding(projects.getSecond().get(0), projects.getFirst(), child);
+                }
             }
-        }
 
-        for (Pair<BuildingProject, List<Coordinate>> projects : projects2) {
-            Coordinate current = projects.getSecond().get(0);
-            if ((current.getRow() == cutCoordinates.get(1).getRow()) && (current.getCol() > cutCoordinates.get(1).getCol()) || (current.getRow() > cutCoordinates.get(1).getRow())) {
-                placeBuilding(projects.getSecond().get(0), projects.getFirst(), child);
-            }
-        }
-
-        for (Pair<BuildingProject, List<Coordinate>> projects : projects1) {
-            Coordinate current = projects.getSecond().get(0);
-            if ((current.getRow() == cutCoordinates.get(2).getRow()) && (current.getCol() > cutCoordinates.get(2).getCol()) || (current.getRow() > cutCoordinates.get(2).getRow())) {
-                break;
-            } else {
-                placeBuilding(projects.getSecond().get(0), projects.getFirst(), child);
-            }
-        }
-
-        for (Pair<BuildingProject, List<Coordinate>> projects : projects2) {
-            Coordinate current = projects.getSecond().get(0);
-            if ((current.getRow() == cutCoordinates.get(3).getRow()) && (current.getCol() > cutCoordinates.get(3).getCol()) || (current.getRow() > cutCoordinates.get(3).getRow())) {
-                placeBuilding(projects.getSecond().get(0), projects.getFirst(), child);
+            for (Pair<BuildingProject, List<Coordinate>> projects : projects2) {
+                Coordinate current = projects.getSecond().get(0);
+                if ((current.getRow() == cutCoordinates.get(i + 1).getRow()) && (current.getCol() > cutCoordinates.get(i + 1).getCol()) || (current.getRow() > cutCoordinates.get(i + 1).getRow())) {
+                    placeBuilding(projects.getSecond().get(0), projects.getFirst(), child);
+                }
             }
         }
 
