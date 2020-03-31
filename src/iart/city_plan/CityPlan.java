@@ -11,7 +11,7 @@ public class CityPlan {
         String inputFileName = args[0];
         InputProcessor ip = new InputProcessor(inputFileName);
 
-        Strategy strategy = new HillClimbingStrategy(ip.getCity());
+        Strategy strategy = new SimulatedAnnealingStrategy(ip.getCity());
         Solution solution = strategy.solve(ip.getBuildingProjects());
 
         System.out.println(solution);
