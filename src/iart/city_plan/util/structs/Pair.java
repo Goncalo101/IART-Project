@@ -9,6 +9,11 @@ public class Pair<T, U> {
         _u = u;
     }
 
+    public Pair(Pair<T, U> pair) {
+        this._t = pair._t;
+        this._u = pair._u;
+    }
+
     public T getFirst() {
         return _t;
     }

@@ -10,6 +10,17 @@ public class Solution {
     private List<Pair<BuildingProject, List<Coordinate>>> solution = new LinkedList<>();
     private int score = 0;
     private int probability = 0;
+    private Pair<BuildingProject, List<Coordinate>> lastAdded;
+
+    public Solution() {
+
+    }
+
+    public Solution(Solution solution) {
+        this.solution = new LinkedList<>(solution.solution);
+        this.score = solution.score;
+        this.probability = solution.probability;
+    }
 
     @Override
     public String toString() {
@@ -36,11 +47,16 @@ public class Solution {
             }
         }
 
-        solution.add(new Pair<>(buildingProject, coordinates));
+        Pair<BuildingProject, List<Coordinate>> buildingInfo = new Pair<>(buildingProject, coordinates);
+        lastAdded = buildingInfo;
+        solution.add(buildingInfo);
     }
 
     public List<Pair<BuildingProject, List<Coordinate>>> getSolution() {
         return solution;
+    }
+    public void setSolution(List<Pair<BuildingProject, List<Coordinate>>> solution) {
+        this.solution = solution;
     }
 
     public int getScore() {
@@ -71,5 +87,9 @@ public class Solution {
                 }
             }
         });
+    }
+
+    public Pair<BuildingProject, List<Coordinate>> getLastAdded() {
+        return lastAdded;
     }
 }
